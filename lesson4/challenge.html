@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+    <style>
+      body {
+        margin: 0%;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .on-button {
+        font-weight: bold;
+        color: white;
+        background-color: rgb(25, 135, 84);
+        border: none;
+        padding: 15px;
+        border-radius: 5px;
+      }
+      .off-button {
+        font-weight: bold;
+        color: white;
+        background-color: rgb(220, 53, 69);
+        border: none;
+        padding: 15px;
+        border-radius: 5px;
+      }
+      .email-container {
+        margin-bottom: 10px;
+      }
+      .password-container {
+        margin-bottom: 10px;
+      }
+      .login-button {
+        color: white;
+        background-color: rgb(0, 125, 255);
+        margin-right: 10px;
+        border: none;
+        padding: 7px 10px;
+      }
+      .signup-button {
+        color: white;
+        background-color: rgb(0, 125, 255);
+        border: none;
+        padding: 7px 10px;
+      }
+      .form-container {
+        margin-left: 20px;
+      }
+      .password-input {
+        padding: 7px 10px;
+        border-radius: 5px;
+        border: 1px solid gray;
+      }
+      .email-input {
+        padding: 7px 10px;
+        border-radius: 5px;
+        border: 1px solid gray;
+      }
+      .show-container {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      //4a, 4b, 4c create a button
+
+      function IsButton() {
+        const [button, setButton] = React.useState(false);
+        function Switch() {
+          // console.log(button)
+          if (button == true) {
+            setButton(false);
+          } else {
+            setButton(true);
+          }
+        }
+        return (
+          <>
+            <button
+              className={button ? "on-button" : "off-button"}
+              onClick={Switch}
+            >
+              {button ? "ON" : "OFF"}
+            </button>
+          </>
+        );
+      }
+
+      //4d Login Form and 4e
+      function LoginForm() {
+        const [showPassword, setShowPassword] = React.useState(false);
+
+        function HidePassword() {
+          if (showPassword) {
+            setShowPassword(false);
+          } else {
+            setShowPassword(true);
+          }
+        }
+        return (
+          <div className="form-container">
+            <h2>Hello Welcome to my website </h2>
+            <div className="email-container">
+              <input className="email-input" type="email" placeholder="Email" />
+            </div>
+            <div className="password-container">
+              <input
+                className="password-input"
+                type="password"
+                placeholder="Password"
+              />
+            </div>
+            <div>
+              <button className="login-button">Login</button>
+              <button className="signup-button">Sign up</button>
+            </div>
+
+            <div className="show-container">
+              <input type={showPassword ? "text" : "password"} />
+              <button onClick={HidePassword}>
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      //4f  and 4g
+      function Time() {
+        const [time, setTime] = React.useState();
+
+        React.useEffect(() => {
+          const interval = setInterval(() => {
+            setTime(dayjs().format("hh:mm:ss A"));
+            // console.log('run code')
+          }, 1000);
+          return () => clearInterval(interval); //clean up
+        }, [time]);
+        return (
+          <div>
+            <br />
+            Current Time : {time}
+          </div>
+        );
+      }
+
+      //4h
+      function Counter() {
+        const [count, setCount] = React.useState(0);
+        const buttonRef = React.useRef(null) // create a ref for the button
+        const intervalRef = React.useRef(null); // store interval ID
+
+        function Count() {
+          setCount((prev) => prev + 1); // use functional update to avoid stale closure
+        }
+
+        function AutoClick() {
+        //    console.log(intervalRef)
+          // clear any existing interval before starting a new one
+          if (intervalRef.current) clearInterval(intervalRef.current);
+
+          console.log(buttonRef)
+
+          intervalRef.current = setInterval(() => {
+            // programmatically trigger the button click
+            if (buttonRef.current) {
+              buttonRef.current.click();
+            }
+          }, 1000);
+        }
+
+        function Reset() {
+          setCount(0);
+          clearInterval(intervalRef.current); // stop auto-click when reset
+        }
+
+        return (
+          <div>
+            {count === 1 ? (
+              <button ref={buttonRef} onClick={Count}>
+                Clicked {count} time
+              </button>
+            ) : (
+              <button ref={buttonRef} onClick={Count}>
+                Clicked {count} times
+              </button>
+            )}
+            <button onClick={Reset}>Reset</button>
+            <button onClick={AutoClick}>Auto Click</button>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <>
+            <IsButton />
+            <LoginForm />
+            <Time />
+            <Counter />
+          </>
+        );
+      }
+      const container = document.querySelector(".js-container");
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>

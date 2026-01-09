@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function Text(){
+        const [inputText,setInputText] = React.useState('')
+        const [data,setData] = React.useState('')
+        function InputBox(event){
+            setInputText(event.target.value)
+        }
+
+        function handleEnter(event){
+        //    console.log(event.key)
+           if(event.key ==="Enter"){
+            //  console.log(inputText)
+             setData(inputText)
+             setInputText('')
+           }
+           if(event.key === "Escape"){
+             setInputText('')
+           }
+        }
+      
+        function SendMessage(){
+        //   console.log(inputText)
+          setData(inputText)
+          setInputText('')
+        }
+
+        return (
+            <>
+              <input placeholder = "Type something" onChange = {InputBox} value={inputText} onKeyDown ={handleEnter}/>
+              <button onClick= {SendMessage} >Send</button>
+              <p>{data}</p>
+            </>
+        )
+      }
+      function App(){
+        return (
+            <>
+              <Text/>
+            </>
+        )
+      }
+      const container = document.querySelector('.js-container');
+      const root = ReactDOM.createRoot(container)
+      root.render(<App/>);
+    </script>
+  </body>
+</html>

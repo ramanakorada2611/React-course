@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    
+    <script type="text/babel">
+        
+        //1a
+        const goodJobButton  = <button>Good job!</button>
+
+        //1b
+        const displayYourName = <p>My name is ramana korad</p>
+        
+        //1c
+        const  design = (
+            <div>
+                <p>Cotton socks</p>
+                <p>Price : $10</p>
+                <button>Add to Cart</button>
+            </div>
+        )
+
+        //1d
+        const productCost = 10 + 2* 8
+        const shippingCost = 5
+        console.log(productCost)
+
+        //1e 
+        const product = <p>Product cost : ${productCost}</p>
+
+        //1f
+        const placeOrder = (
+            <div>
+                <p>Product cost : ${productCost}</p>
+                <p>Shipping cost : ${shippingCost}</p>
+                <p>Total cost : ${productCost + shippingCost}</p>
+                <button>Place a order</button>
+            </div>
+        )
+
+        //1g
+        console.log(dayjs().format('MMMM D'))
+
+        //1h
+        const todayDate = <p>Today is {dayjs().format('MMMM D')}</p>
+
+        //1i
+         const currentTime = <p>Today is {dayjs().format('HH:mm:ss')}</p>
+
+         
+       
+        const container = document.querySelector('.js-container');
+        //   ReactDOM.createRoot(container).render(currentDate);
+        const root =  ReactDOM.createRoot(container)
+        // root.render(time)
+
+        //1j
+        
+
+        setInterval(()=>{
+            const time = <p>Current time : {dayjs().format('HH:mm:ss')}</p>
+            root.render(time)
+        },1000)
+
+        
+    </script>
+  </body>
+</html>
